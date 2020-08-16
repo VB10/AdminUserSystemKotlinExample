@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
 
         val admincanberk = Admin("admincanberk","2323")
         admincanberk.changePassword("321")
+        println(admincanberk.userPassword)
+        admincanberk.userBan()
         println(admincanberk.getType())
 
         println("--------------------------")
@@ -56,7 +58,7 @@ class StandartUser(override var userName: String, override var userPassword: Str
         return TYPE.STANDARTUSER
     }
 }
-class Admin(override var userName: String, override var userPassword: String): User() {
+class Admin(override var userName: String, override var userPassword: String): User(),IAdmin {
     override fun changeName(_userName : String) {
         this.userName = _userName
     }
@@ -69,8 +71,20 @@ class Admin(override var userName: String, override var userPassword: String): U
         return TYPE.ADMIN
     }
 
-    fun changePassword(_userPass : String){
+    override fun changePassword(_userPass : String){
         this.userPassword = _userPass;
+    }
+
+    override fun userCreate() {
+        println("userCreate")
+    }
+
+    override fun userBan() {
+        println("userBan")
+    }
+
+    override fun userMakeAdmin() {
+        println("userMakeAdmin")
     }
 
 }
@@ -80,6 +94,13 @@ abstract class User{
     abstract fun changeName(userName : String)
     abstract fun logOut()
     abstract fun getType(): TYPE
+}
+
+interface IAdmin{
+    fun userCreate()
+    fun userBan()
+    fun userMakeAdmin()
+    fun changePassword(_userPass : String)
 }
 
 enum class TYPE{
